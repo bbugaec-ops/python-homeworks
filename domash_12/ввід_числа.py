@@ -14,4 +14,4 @@ while True:
     except ValueError:
         print("помилка. ви ввели не число")
 
-print(f"сума всіх чисел : {total} ")
+print(f"сума всіх і всіх чисел чисел : {total} ")
