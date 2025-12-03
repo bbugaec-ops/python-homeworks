@@ -3,7 +3,7 @@ cantri = {"France": "Paris","Japan":"Tokyo","UK":"London","Ukraine":"Kiyv","Ital
 for key, values in cantri.items():
     print(values,sep="")
 
-print('--------------')
+print('---------------======')
 
 cantri1 = {"France":"Paris","Japan":"Tokio","UK":"London","Moldova":"Chichineu","Bolgaria":"Sofia"}
 
