@@ -3,7 +3,7 @@ prices = []
 total = 0
 
 while True:
-    food = input("Enter food duy (q to qyit :")
+    food = input("Enter food duy (q ttttto qyit :")
     if food.lower() == 'q':
         break
     else:
