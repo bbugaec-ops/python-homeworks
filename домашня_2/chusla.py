@@ -8,3 +8,5 @@ elif a == b or a == c or b == c:
     print("однакові :",2,"числа")
 else:
     print("нема однакових чисел !")
+
+print("hello git")
