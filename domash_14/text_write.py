@@ -10,7 +10,7 @@ try:
     with open("slovo.txt", "w", encoding="utf-8") as f:
         f.write(new_text)
 
-    print("Готово!!! Слово замінено.")
+    print("Готово!!!! Слово замінено.")
 
 except FileNotFoundError:
     print("Файл slovo.txt не знайдено!")
