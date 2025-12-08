@@ -5,6 +5,8 @@ filename = 'users.pickle'
 def save_data(data):
     with open(filename,'wb') as f:
         pickle.dump(data,f)
+    #  change from master    
+        
 
 def load_data():
     try:
@@ -12,6 +14,7 @@ def load_data():
             return pickle.loads(f)
     except FileNotFoundError:
         return {}
+        # change for task 10
 
 def add_user(users):
     login = input("Введіть логін :")
@@ -59,6 +62,7 @@ while TypeError:
     print("0.Вихід")
 
     choice = input("Ваш вибір")
+    # task 10 edit
 
     if choice == '1':
         add_user(users)
