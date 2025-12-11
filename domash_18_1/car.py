@@ -10,9 +10,36 @@ class Car:
         self.model = model
         self.color = color
         self.year = year
-        self.engin = engin
+        self.__engin = engin
         self.price = price
-        self.facture = facture     #    виробник
+        self.__facture = facture  #    виробник
+
+    def get_facture(self):
+        return self.__facture
+
+    @property
+    def engin(self):
+        return self.__engin
+
+    @engin.setter
+    def engin(self,value):
+        if value < 0:
+            print("Об'єм двигуна не може бути змінений")
+            return
+        self.__engin = value
+
+    @property
+    def facture(self):
+        return self.__facture
+
+    @facture.setter
+    def facture(self, value):
+        if not value:
+            print("Виробник не може бути порожнім :")
+            return
+        self.__facture = value
+
+
 
     def input_data(self):
         self.model = input("Введіть назву моделі :")
@@ -20,7 +47,14 @@ class Car:
         self.year = input("Якого року авто :")
         self.engin = float(input("Який об'єм двигуна :"))
         self.price = float(input("Вкажіть ціну авто :"))
-        self.facture = input("Хто виробник авто :")
+        #self.facture = input("Хто виробник авто :")
+
+        while True:
+            facture = input("Хто виробник :")
+            if facture.strip():
+                self.__facture = facture
+                break
+            print("Виробник не може бути пустим :")
 
     def print_data(self):
         print('--------Інформація про авто----------')
@@ -60,4 +94,10 @@ if car.is_older_that(2015):
     print("Цец авто старше за 2015 рік :")
 else:
     print("Це авто не старіше за 2015 рік .")
+
+
+car.engin = 2.4
+print(car.engin)
+car.facture = 'Toyota'
+print(car.facture)
 
