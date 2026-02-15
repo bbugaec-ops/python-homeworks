@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Блочний каркас</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body{
+      margin:0;
+      font-family: Calibri, Arial, sans-serif;
+      background:#f5f6f7;
+      color:#111;
+    }
+
+    .container{
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* Каркас */
+    .header, .nav, .main, .aside, .footer{
+      border: 2px solid #222;
+      padding: 12px;
+      background:#fff;
+    }
+
+    .header{ background:#e8f0ff; }
+    .nav{ background:#e9ffe8; }
+    .footer{ background:#ffe8f1; }
+
+    .layout{
+      display: grid;
+      grid-template-columns: 2fr 1fr; /* main ширший, aside вужчий */
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    /* Блоки всередині main */
+    .cards{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .card{
+      border: 2px solid #222;
+      padding: 10px;
+      background:#fafafa;
+      min-height: 90px;
+    }
+
+    /* Адаптивність для телефону */
+    @media (max-width: 800px){
+      .layout{ grid-template-columns: 1fr; }
+      .cards{ grid-template-columns: 1fr; }
+    }
+
+    /* Просто щоб меню виглядало як блоки */
+    .menu{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .menu li{
+      border: 2px solid #222;
+      background:#fff;
+      padding: 6px 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <h2 style="margin:0;">IT-STEP</h2>
+      <div>Лого / назва сайту</div>
+    </div>
+
+    <div class="nav" style="margin-top:12px;">
+      <h3 style="margin:0 0 8px;">Nav</h3>
+      <ul class="menu">
+        <li>Головна</li>
+        <li>Про нас</li>
+        <li>Контакти</li>
+        <li>Новини</li>
+      </ul>
+    </div>
+
+    <div class="layout">
+      <div class="main">
+        <h3 style="margin:0 0 8px;">Main</h3>
+        <div>Основний контент сторінки.</div>
+
+        <div class="cards">
+          <div class="card"><b>Блок 1</b><br>Головна.</div>
+          <div class="card"><b>Блок 2</b><br>Навчальні матеріали.</div>
+          <div class="card"><b>Блок 3</b><br>Домашні завдання.</div>
+          <div class="card"><b>Блок 4</b><br>Розклад.</div>
+          <div class="card"><b>Блок 5</b><br>Новини.</div>
+          <div class="card"><b>Блок 6</b><br>Контакти.</div>
+        </div>
+      </div>
+
+      <div class="aside">
+        <h3 style="margin:0 0 8px;">Aside</h3>
+        <div>Бокова колонка: посилання, реклама, нотатки.</div>
+        <div style="margin-top:10px; border:2px solid #222; padding:10px; background:#fff;">
+          <b>Віджет</b><br>
+          Тут може бути будь-який блок.
+        </div>
+      </div>
+    </div>
+
+    <div class="footer" style="margin-top:12px;">
+      <h3 style="margin:0;">Footer</h3>
+      <div>© 2026</div>
+    </div>
+
+  </div>
+</body>
+</html>

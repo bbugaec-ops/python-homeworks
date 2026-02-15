@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fruits</title>
+  <style>
+    body{
+      font-family: Calibri, Arial, sans-serif;
+      background:#ffffff;
+      padding:24px;
+    }
+
+    /* Світлий фон у всього списку */
+    .fruits{
+      width: 320px;
+      background:#e9e9e9;
+      padding:16px 18px;                /* padding = внутрішній відступ */
+      margin:0;                          /* margin = зовнішній відступ */
+      list-style-position: inside;
+      border-radius:6px;
+    }
+
+    .fruits li{
+      margin:20px 0;               /* щоб були “проміжки” як на прикладі */
+      padding:10px 10px;
+      border-radius:8px;
+    }
+
+    /* Темніший фон в одного елемента списку */
+    .fruits li.highlight{
+      background:#cfcfcf;
+    }
+
+    /* Найтемніший фон тільки під текстом */
+    .fruits li span{
+      background:#6f6f6f;
+      color:#fff;
+      padding:2px 8px;
+      border-radius:3px;
+      display:inline-block;
+    }
+  </style>
+</head>
+<body>
+
+    <h1>FRUITS</h1>
+
+  <ol class="fruits">
+    <li>
+      <img src="https://cdn-icons-png.flaticon.com/512/415/415733.png" width="40">
+      <span>Apple</span>
+    </li>
+    <li>
+      <img src="https://cdn-icons-png.flaticon.com/512/1728/1728765.png"  width="40">
+      <span>Orange</span>
+
+    </li>
+    <li class="higlight">
+      <img src="https://cdn-icons-png.flaticon.com/512/415/415731.png" width="40">
+      <span>Pineapple</span>
+
+    </li>
+    <li>
+      <img src="https://cdn-icons-png.flaticon.com/512/3137/3137044.png" width="40">
+      <span>Pear</span>
+
+    </li>
+    <li>
+      <img src="https://cdn-icons-png.flaticon.com/512/693/693476.png" width="40">
+      <span>Cherry</span>
+
+    </li>
+  </ol>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+
+/* Основні налаштування фону та шрифту */
+body {
+    background-color: #f4f1ea; /* Колір старого паперу */
+    font-family: 'Times New Roman', serif;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Контейнер, щоб текст не розповзався по всьому екрану */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 40px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Заголовки */
+h1 {
+    text-align: center;
+    text-transform: uppercase;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+
+h2, h3 {
+    text-align: center;
+    color: #555;
+}
+
+/* Текст пролог */
+.prologue-text {
+    font-style: italic;
+    text-align: center;
+    margin: 20px 0;
+}
+
+
+strong {
+    color: #800000;
+}
