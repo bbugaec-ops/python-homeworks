@@ -1,0 +1,41 @@
+body {
+  background: yellow;
+  font-family: Arial;
+  margin: 0;
+}
+
+header {
+   background: #362928;
+   color:  red;
+   padding: 20px;
+}
+
+nav{
+   background: #eee;
+   padding:  10px
+}
+
+section{
+   padding: 40px;
+
+}
+
+footer{
+   background: #244;
+   color: white;
+
+}
+.service{
+     display: flex;}
+
+.box{
+   background: lightblue:
+   padding: 40px;
+   flex: 1;
+
+}
+@media (max-width: 768px) {
+.service{
+   flex-direction: column;
+  }
+}

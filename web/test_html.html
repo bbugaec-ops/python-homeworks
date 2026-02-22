@@ -1,0 +1,122 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My website</title>
+
+  <style>
+    :root{
+      --bg: #0b1220;
+      --card: rgba(255,255,255,.06);
+      --border: rgba(255,255,255,.12);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --shadow: 0 18px 50px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+
+    *{ box-sizing: border-box; }
+
+    body{
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    header{
+      padding: 56px 18px 20px;
+      text-align: center;
+    }
+
+    header h1{
+      margin: 0;
+      font-size: clamp(30px, 4vw, 46px);
+      letter-spacing: .5px;
+    }
+
+    header p{
+      margin: 10px auto 0;
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    nav{
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: rgba(10,16,30,.55);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav a{
+      text-decoration: none;
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: .2s ease;
+      font-weight: 600;
+      font-size: 14px;
+      opacity: .92;
+    }
+
+    nav a:hover{
+      border-color: var(--border);
+      background: rgba(255,255,255,.06);
+      transform: translateY(-1px);
+      opacity: 1;
+    }
+
+    section{
+      max-width: 980px;
+      margin: 26px auto 60px;
+      padding: 24px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    footer{
+      text-align: center;
+      padding: 18px 12px 26px;
+      color: rgba(255,255,255,.55);
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>My website</h1>
+    <p>Clean, simple, and fast. A small place for my projects and ideas.</p>
+  </header>
+
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+  </nav>
+
+  <section>
+    <h2>About us</h2>
+    <p>We build simple things that look good and work well.</p>
+  </section>
+
+  <footer>
+    <p>2026 My site</p>
+  </footer>
+</body>
+</html>

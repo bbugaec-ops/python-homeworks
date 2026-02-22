@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neon Color Landing</title>
+
+  <style>
+    :root{
+      --bg0:#070A12;
+      --bg1:#0B1020;
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --border: rgba(255,255,255,.14);
+      --card: rgba(255,255,255,.07);
+      --shadow: 0 22px 80px rgba(0,0,0,.50);
+      --r: 18px;
+
+      /* accents */
+      --a1:#7C3AED; /* purple */
+      --a2:#3B82F6; /* blue */
+      --a3:#22C55E; /* green */
+      --a4:#06B6D4; /* cyan */
+      --a5:#F59E0B; /* amber */
+      --a6:#EF4444; /* red */
+    }
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 540px at 12% -10%, rgba(124,58,237,.42), transparent 60%),
+        radial-gradient(900px 540px at 88% 0%, rgba(6,182,212,.22), transparent 56%),
+        radial-gradient(900px 540px at 60% 110%, rgba(34,197,94,.20), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      min-height:100vh;
+      overflow-x:hidden;
+      line-height:1.6;
+    }
+
+    /* subtle animated noise + grid */
+    .fx{
+      position: fixed;
+      inset: 0;
+      pointer-events:none;
+      z-index:0;
+    }
+    .fx::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(239,68,68,.08), transparent 40%),
+        radial-gradient(circle at 80% 30%, rgba(245,158,11,.10), transparent 40%),
+        radial-gradient(circle at 40% 85%, rgba(59,130,246,.10), transparent 45%);
+      filter: blur(0px);
+      opacity: .9;
+      animation: float 10s ease-in-out infinite;
+    }
+    .fx::after{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size: 46px 46px;
+      opacity: .10;
+      mask-image: radial-gradient(circle at 50% 10%, black 25%, transparent 70%);
+    }
+    @keyframes float{
+      0%,100%{ transform: translate(0,0); }
+      50%{ transform: translate(18px,-10px); }
+    }
+
+    .wrap{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+      position: relative;
+      z-index:1;
+    }
+
+    /* NAV */
+    nav{
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(8,12,22,.55);
+      border-bottom: 1px solid var(--border);
+    }
+    .navRow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 12px 0;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      text-decoration:none;
+      color: var(--text);
+      font-weight: 900;
+      letter-spacing:.3px;
+    }
+    .logo{
+      width: 14px; height: 14px; border-radius: 999px;
+      background: linear-gradient(135deg, var(--a1), var(--a2));
+      box-shadow: 0 0 0 6px rgba(124,58,237,.12), 0 18px 45px rgba(124,58,237,.25);
+    }
+    .navLinks{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+    .navLinks a{
+      text-decoration:none;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 14px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      opacity: .92;
+      transition: .18s ease;
+    }
+    .navLinks a:hover{
+      opacity: 1;
+      background: rgba(255,255,255,.07);
+      border-color: var(--border);
+      transform: translateY(-1px);
+    }
+
+    .burger{
+      display:none;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* HERO */
+    header{
+      padding: 54px 0 22px;
+    }
+    .hero{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset: -140px -140px auto auto;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 35%, rgba(124,58,237,.42), transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(59,130,246,.22), transparent 60%);
+      opacity: .9;
+      pointer-events:none;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .35px;
+      margin-bottom: 10px;
+    }
+
+    .title{
+      margin: 0 0 10px;
+      font-size: clamp(30px, 4.2vw, 56px);
+      line-height: 1.06;
+      letter-spacing: .4px;
+    }
+    .grad{
+      background: linear-gradient(90deg, var(--a5), var(--a1), var(--a2), var(--a4));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle{
+      margin: 0 0 14px;
+      color: var(--muted);
+      max-width: 62ch;
+      font-size: 16px;
+    }
+
+    .ctaRow{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      text-decoration:none;
+      font-weight: 900;
+      border: 1px solid var(--border);
+      color: var(--text);
+      background: rgba(255,255,255,.06);
+      transition: .18s ease;
+      user-select: none;
+    }
+    .btn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+    .btn.primary{
+      border: none;
+      background: linear-gradient(90deg, var(--a1), var(--a2));
+      box-shadow: 0 18px 55px rgba(124,58,237,.25);
+    }
+    .btn.alt{
+      border: none;
+      background: linear-gradient(90deg, var(--a3), var(--a4));
+      box-shadow: 0 18px 55px rgba(34,197,94,.18);
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .stat{
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.05);
+    }
+    .stat strong{ display:block; font-size: 18px; }
+    .stat span{ color: var(--muted); font-size: 12px; }
+
+    /* Right hero: mock preview */
+    .preview{
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .preview::before{
+      content:"";
+      position:absolute;
+      inset: -60px auto auto -60px;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(245,158,11,.30), transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(239,68,68,.20), transparent 60%);
+      z-index: -1;
+    }
+    .mock{
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      padding: 14px;
+    }
+    .bar{
+      display:flex;
+      gap: 8px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      margin-bottom: 10px;
+    }
+    .dotx{ width: 10px; height: 10px; border-radius: 50%; }
+    .dotx.r{ background: rgba(239,68,68,.9); }
+    .dotx.y{ background: rgba(245,158,11,.9); }
+    .dotx.g{ background: rgba(34,197,94,.9); }
+
+    .line{ height: 10px; border-radius: 999px; background: rgba(255,255,255,.10); margin: 10px 0; }
+    .l1{ width: 92%; }
+    .l2{ width: 78%; }
+    .l3{ width: 58%; }
+    .chipRow{ display:flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .chip{
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.78);
+      font-size: 12px;
+    }
+    .chip.c1{ background: linear-gradient(135deg, rgba(124,58,237,.18), rgba(59,130,246,.10)); }
+    .chip.c2{ background: linear-gradient(135deg, rgba(34,197,94,.16), rgba(6,182,212,.10)); }
+    .chip.c3{ background: linear-gradient(135deg, rgba(245,158,11,.16), rgba(239,68,68,.10)); }
+
+    /* SECTIONS */
+    section{ padding: 14px 0; }
+    .sectionTitle{
+      margin: 20px 0 12px;
+      font-size: 18px;
+      letter-spacing: .3px;
+      color: rgba(255,255,255,.88);
+    }
+
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .miniCard{
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      transition: .18s ease;
+      position: relative;
+      overflow:hidden;
+    }
+    .miniCard:hover{ transform: translateY(-2px); background: rgba(255,255,255,.07); }
+    .miniCard h3{ margin: 0 0 8px; font-size: 16px; }
+    .miniCard p{ margin: 0; color: var(--muted); font-size: 14px; }
+
+    .pill{
+      display:inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      background: rgba(255,255,255,.05);
+      margin-bottom: 10px;
+    }
+
+    .projects{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .projectTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .projIcon{
+      width: 34px; height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(124,58,237,.35), rgba(59,130,246,.20));
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: 0 16px 40px rgba(124,58,237,.18);
+    }
+    .projIcon.g{ background: linear-gradient(135deg, rgba(34,197,94,.30), rgba(6,182,212,.16)); box-shadow: 0 16px 40px rgba(34,197,94,.12); }
+    .projIcon.o{ background: linear-gradient(135deg, rgba(245,158,11,.30), rgba(239,68,68,.14)); box-shadow: 0 16px 40px rgba(245,158,11,.12); }
+
+    .quote{
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .contact{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 12px;
+    }
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    label{ font-size: 13px; color: rgba(255,255,255,.80); font-weight: 700; }
+    input, textarea{
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding: 12px 12px;
+      outline: none;
+      font: inherit;
+    }
+    textarea{ min-height: 110px; resize: vertical; }
+    input:focus, textarea:focus{
+      border-color: rgba(124,58,237,.6);
+      box-shadow: 0 0 0 4px rgba(124,58,237,.15);
+    }
+    .hint{ color: var(--muted); font-size: 13px; margin: 0; }
+
+    footer{
+      padding: 26px 0 34px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      color: rgba(255,255,255,.55);
+      font-size: 13px;
+      text-align:center;
+      margin-top: 18px;
+    }
+
+    /* Responsive */
+    @media (max-width: 920px){
+      .hero{ grid-template-columns: 1fr; }
+      .stats{ grid-template-columns: 1fr; }
+      .grid3{ grid-template-columns: 1fr; }
+      .projects{ grid-template-columns: 1fr; }
+      .contact{ grid-template-columns: 1fr; }
+      .burger{ display:inline-flex; }
+      .navLinks{ display:none; }
+      .navLinks.open{
+        display:flex;
+        flex-direction:column;
+        align-items:flex-end;
+        padding: 8px 0 12px;
+      }
+      .navRow{ align-items:flex-start; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="fx"></div>
+
+  <nav>
+    <div class="wrap navRow">
+      <a class="brand" href="#top"><span class="logo"></span> NeonSite</a>
+
+      <button class="burger" id="burger" aria-label="Open menu">Menu</button>
+
+      <div class="navLinks" id="navLinks">
+        <a href="#features">Features</a>
+        <a href="#projects">Projects</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wrap" id="top">
+    <header>
+      <div class="hero">
+        <div class="card">
+          <div class="badge">⚡ Modern look • Neon gradients • 2026</div>
+
+          <h1 class="title">
+            Кольоровий сайт, який виглядає <span class="grad">дорого</span>
+          </h1>
+
+          <p class="subtitle">
+            Це не “шаблон з квадратиками”. Тут стиль, світіння, плавність і нормальна структура.
+            Текст міняється за хвилину — вигляд залишається топовим.
+          </p>
+
+          <div class="ctaRow">
+            <a class="btn primary" href="#projects">Дивитись роботи</a>
+            <a class="btn alt" href="#contact">Написати мені</a>
+            <a class="btn" href="#features">Що всередині</a>
+          </div>
+
+          <div class="stats">
+            <div class="stat"><strong>+Neon</strong><span>градієнти і glow</span></div>
+            <div class="stat"><strong>Responsive</strong><span>телефон/ПК</span></div>
+            <div class="stat"><strong>Clean</strong><span>без бібліотек</span></div>
+          </div>
+        </div>
+
+        <div class="card preview">
+          <div class="mock">
+            <div class="bar">
+              <span class="dotx r"></span><span class="dotx y"></span><span class="dotx g"></span>
+            </div>
+            <div class="line l1"></div>
+            <div class="line l2"></div>
+            <div class="line l3"></div>
+            <div class="line l1"></div>
+            <div class="line l2"></div>
+
+            <div class="chipRow">
+              <span class="chip c1">UI / Landing</span>
+              <span class="chip c2">Fast & Clean</span>
+              <span class="chip c3">Colorful</span>
+            </div>
+          </div>
+
+          <p class="hint" style="margin-top:12px;">
+            Праворуч — “preview”, щоб середина виглядала живо, а не пусто.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <section id="features">
+      <h2 class="sectionTitle">Features</h2>
+      <div class="grid3">
+        <div class="miniCard">
+          <span class="pill">🚀 Speed</span>
+          <h3>Швидко і легко</h3>
+          <p>Без зайвого. Один файл. Все працює одразу.</p>
+        </div>
+        <div class="miniCard">
+          <span class="pill">🎨 Style</span>
+          <h3>Кольори + glow</h3>
+          <p>Градієнти, скло, легкі анімації — вигляд “як у продукту”.</p>
+        </div>
+        <div class="miniCard">
+          <span class="pill">🧩 Simple</span>
+          <h3>Редагується за 2 хв</h3>
+          <p>Поміняв заголовок/кнопки/контакти — і готово.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2 class="sectionTitle">Projects</h2>
+      <div class="projects">
+        <div class="miniCard">
+          <div class="projectTop">
+            <div class="projIcon"></div>
+            <span class="pill">Landing</span>
+          </div>
+          <h3>Product Launch</h3>
+          <p>Сторінка для запуску продукту: CTA, блоки, відгуки, контакт.</p>
+        </div>
+
+        <div class="miniCard">
+          <div class="projectTop">
+            <div class="projIcon g"></div>
+            <span class="pill">Portfolio</span>
+          </div>
+          <h3>Creative Portfolio</h3>
+          <p>Показ робіт: картки, теги, красиві секції, чиста типографіка.</p>
+        </div>
+
+        <div class="miniCard">
+          <div class="projectTop">
+            <div class="projIcon o"></div>
+            <span class="pill">Business</span>
+          </div>
+          <h3>Small Business</h3>
+          <p>Послуги + контакти + кнопка “написати” — без води.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="reviews">
+      <h2 class="sectionTitle">Reviews</h2>
+      <div class="grid3">
+        <div class="quote">“Виглядає реально як сайт сервісу, а не як домашка.”</div>
+        <div class="quote">“Кольори кайфові, меню акуратне, на телефоні норм.”</div>
+        <div class="quote">“Просто поміняв текст — і вже можна викладати.”</div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 class="sectionTitle">Contact</h2>
+      <div class="contact">
+        <div class="card">
+          <h3 style="margin:0 0 10px;">Написати повідомлення</h3>
+          <p class="hint" style="margin:0 0 12px;">
+            Форма локальна (без бекенду). Кнопка відкриє ваш поштовий клієнт.
+          </p>
+
+          <div class="field">
+            <label for="name">Імʼя</label>
+            <input id="name" placeholder="Наприклад: Alex" />
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" placeholder="name@example.com" />
+          </div>
+
+          <div class="field">
+            <label for="msg">Повідомлення</label>
+            <textarea id="msg" placeholder="Напиши коротко, що треба…"></textarea>
+          </div>
+
+          <div class="ctaRow">
+            <a class="btn primary" id="sendBtn" href="#">Відправити</a>
+            <button class="btn" id="copyBtn" type="button">Скопіювати email</button>
+          </div>
+
+          <p class="hint" id="toast" style="margin-top:10px; display:none;">Скопійовано ✅</p>
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0 0 10px;">Швидкі контакти</h3>
+          <p class="hint" style="margin:0 0 14px;">
+            Постав тут свої реальні посилання (Telegram/Instagram/LinkedIn).
+          </p>
+
+          <div class="grid3" style="grid-template-columns:1fr; gap:10px;">
+            <div class="miniCard" style="margin:0;">
+              <span class="pill">✉️ Email</span>
+              <p style="margin:0;"><strong id="myEmail">hello@example.com</strong></p>
+            </div>
+            <div class="miniCard" style="margin:0;">
+              <span class="pill">💬 Telegram</span>
+              <p style="margin:0;">@yourtelegram</p>
+            </div>
+            <div class="miniCard" style="margin:0;">
+              <span class="pill">🌐 Website</span>
+              <p style="margin:0;">yourdomain.com</p>
+            </div>
+          </div>
+
+          <p class="hint" style="margin-top:12px;">
+            Хочеш — зроблю версію “світлу”, або під конкретну тему: портфоліо / бізнес / блог.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © 2026 NeonSite • зроблено акуратно
+    </footer>
+  </div>
+
+  <script>
+    // mobile menu
+    const burger = document.getElementById('burger');
+    const navLinks = document.getElementById('navLinks');
+    burger?.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+    // mailto from form
+    const sendBtn = document.getElementById('sendBtn');
+    const myEmailEl = document.getElementById('myEmail');
+    const copyBtn = document.getElementById('copyBtn');
+    const toast = document.getElementById('toast');
+
+    function getEmail(){ return (myEmailEl?.textContent || 'hello@example.com').trim(); }
+
+    sendBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const name = (document.getElementById('name').value || '').trim();
+      const email = (document.getElementById('email').value || '').trim();
+      const msg = (document.getElementById('msg').value || '').trim();
+
+      const subject = encodeURIComponent('Message from website' + (name ? ' — ' + name : ''));
+      const body = encodeURIComponent(
+        (name ? `Name: ${name}\n` : '') +
+        (email ? `Email: ${email}\n\n` : '\n') +
+        (msg || 'Hello!')
+      );
+
+      window.location.href = `mailto:${getEmail()}?subject=${subject}&body=${body}`;
+    });
+
+    // copy email
+    copyBtn?.addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText(getEmail());
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 1200);
+      }catch(e){}
+    });
+  </script>
+</body>
+</html>

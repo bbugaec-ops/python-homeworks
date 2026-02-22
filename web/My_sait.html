@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Color Light Landing</title>
+
+  <style>
+    :root{
+      --bg0:#f6f7ff;
+      --bg1:#eef2ff;
+
+      --text: rgba(15,23,42,.95);
+      --muted: rgba(15,23,42,.65);
+
+      --border: rgba(15,23,42,.12);
+      --card: rgba(255,255,255,.78);
+      --shadow: 0 18px 60px rgba(2,6,23,.12);
+      --r: 18px;
+
+      --p1:#7c3aed;
+      --p2:#3b82f6;
+      --p3:#22c55e;
+      --p4:#06b6d4;
+      --p5:#f59e0b;
+      --p6:#ef4444;
+    }
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      min-height:100vh;
+      line-height:1.6;
+      overflow-x:hidden;
+      background:
+        radial-gradient(900px 520px at 12% -10%, rgba(124,58,237,.25), transparent 60%),
+        radial-gradient(900px 520px at 88% 0%, rgba(6,182,212,.18), transparent 56%),
+        radial-gradient(900px 520px at 60% 110%, rgba(34,197,94,.16), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+    }
+
+    .wrap{ max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+
+    nav{
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background: rgba(255,255,255,.55);
+      border-bottom: 1px solid var(--border);
+    }
+    .navRow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 12px 0;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      text-decoration:none; color: var(--text);
+      font-weight: 900;
+    }
+    .logo{
+      width: 14px; height: 14px; border-radius: 999px;
+      background: linear-gradient(135deg, var(--p1), var(--p2));
+      box-shadow: 0 14px 40px rgba(124,58,237,.22);
+    }
+    .navLinks{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+    .navLinks a{
+      text-decoration:none; color: var(--text);
+      font-weight: 800; font-size: 14px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: .18s ease;
+      opacity: .9;
+    }
+    .navLinks a:hover{
+      opacity: 1;
+      background: rgba(255,255,255,.8);
+      border-color: var(--border);
+      transform: translateY(-1px);
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before{
+      content:"";
+      position:absolute;
+      inset: -140px -140px auto auto;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 35%, rgba(124,58,237,.22), transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(59,130,246,.16), transparent 60%);
+      pointer-events:none;
+    }
+
+    header{ padding: 56px 0 20px; }
+    .hero{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .badge{
+      display:inline-flex; align-items:center; gap:10px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.7);
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .35px;
+      margin-bottom: 10px;
+    }
+
+    h1{
+      margin:0 0 10px;
+      font-size: clamp(30px, 4.2vw, 58px);
+      line-height: 1.06;
+      letter-spacing: .3px;
+    }
+    .grad{
+      background: linear-gradient(90deg, var(--p5), var(--p1), var(--p2), var(--p4));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color: transparent;
+    }
+    .subtitle{
+      margin:0 0 14px;
+      color: var(--muted);
+      max-width: 62ch;
+      font-size: 16px;
+    }
+
+    .cta{ display:flex; flex-wrap:wrap; gap:10px; margin-top: 12px; }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 12px 16px;
+      border-radius: 14px;
+      text-decoration:none;
+      font-weight: 900;
+      border: 1px solid var(--border);
+      color: var(--text);
+      background: rgba(255,255,255,.75);
+      transition: .18s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); filter: brightness(1.03); }
+    .btn.primary{
+      border:none;
+      color: white;
+      background: linear-gradient(90deg, var(--p1), var(--p2));
+      box-shadow: 0 18px 50px rgba(124,58,237,.25);
+    }
+    .btn.alt{
+      border:none;
+      color: white;
+      background: linear-gradient(90deg, var(--p3), var(--p4));
+      box-shadow: 0 18px 50px rgba(34,197,94,.18);
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .stat{
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.70);
+    }
+    .stat strong{ display:block; font-size: 18px; }
+    .stat span{ color: var(--muted); font-size: 12px; }
+
+    .mock{
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.70);
+      padding: 14px;
+    }
+    .bar{ display:flex; gap:8px; padding-bottom:10px; border-bottom:1px solid rgba(15,23,42,.10); margin-bottom:10px; }
+    .dot{ width:10px; height:10px; border-radius:50%; }
+    .dot.r{ background: var(--p6); } .dot.y{ background: var(--p5); } .dot.g{ background: var(--p3); }
+    .line{ height:10px; border-radius:999px; background: rgba(15,23,42,.10); margin:10px 0; }
+    .l1{ width:92%; } .l2{ width:78%; } .l3{ width:58%; }
+    .chips{ display:flex; gap:8px; flex-wrap:wrap; margin-top: 12px; }
+    .chip{
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.78);
+      color: rgba(15,23,42,.80);
+      font-size: 12px;
+    }
+
+    section{ padding: 14px 0; }
+    .sectionTitle{ margin: 20px 0 12px; font-size: 18px; letter-spacing:.2px; }
+
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .miniCard{
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.72);
+      transition: .18s ease;
+    }
+    .miniCard:hover{ transform: translateY(-2px); }
+    .pill{
+      display:inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: rgba(15,23,42,.70);
+      font-size: 12px;
+      background: rgba(255,255,255,.8);
+      margin-bottom: 10px;
+    }
+    .miniCard h3{ margin:0 0 8px; font-size:16px; }
+    .miniCard p{ margin:0; color: var(--muted); font-size:14px; }
+
+    footer{
+      padding: 26px 0 34px;
+      border-top: 1px solid rgba(15,23,42,.10);
+      color: rgba(15,23,42,.55);
+      font-size: 13px;
+      text-align:center;
+      margin-top: 18px;
+    }
+
+    @media (max-width: 920px){
+      .hero{ grid-template-columns: 1fr; }
+      .stats{ grid-template-columns: 1fr; }
+      .grid3{ grid-template-columns: 1fr; }
+      .navLinks{ justify-content:flex-start; }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="wrap navRow">
+      <a class="brand" href="#top"><span class="logo"></span> LightColor</a>
+      <div class="navLinks">
+        <a href="#features">Фішки</a>
+        <a href="#blocks">Блоки</a>
+        <a href="#contact">Контакт</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wrap" id="top">
+    <header>
+      <div class="hero">
+        <div class="card">
+          <div class="badge">✨ Light • Colorful • Premium</div>
+          <h1>Світлий сайт, який виглядає <span class="grad">круто</span></h1>
+          <p class="subtitle">
+            Кольоровий, але світлий. “Скло”, мʼякі тіні, градієнти — і все читається ідеально.
+          </p>
+
+          <div class="cta">
+            <a class="btn primary" href="#contact">Написати</a>
+            <a class="btn alt" href="#features">Дивитись фішки</a>
+            <a class="btn" href="#blocks">Що всередині</a>
+          </div>
+
+          <div class="stats">
+            <div class="stat"><strong>Style</strong><span>glass + gradients</span></div>
+            <div class="stat"><strong>Fast</strong><span>один файл</span></div>
+            <div class="stat"><strong>Responsive</strong><span>phone/PC</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="mock">
+            <div class="bar">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+            </div>
+            <div class="line l1"></div>
+            <div class="line l2"></div>
+            <div class="line l3"></div>
+            <div class="line l1"></div>
+            <div class="line l2"></div>
+            <div class="chips">
+              <span class="chip">Colorful UI</span>
+              <span class="chip">Clean layout</span>
+              <span class="chip">Premium look</span>
+            </div>
+          </div>
+          <p style="margin-top:12px; color: var(--muted);">
+            Оце і є “гарна середина”: живі блоки, не пусто, вигляд як у нормального продукту.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <section id="features">
+      <h2 class="sectionTitle">Фішки</h2>
+      <div class="grid3">
+        <div class="miniCard">
+          <span class="pill">🎨 Дизайн</span>
+          <h3>Світло + колір</h3>
+          <p>Не темно. Все читається. Але кольори дають “вау”.</p>
+        </div>
+        <div class="miniCard">
+          <span class="pill">🧠 Структура</span>
+          <h3>Як у реальних сайтів</h3>
+          <p>Hero → блоки → контакт. Нічого зайвого.</p>
+        </div>
+        <div class="miniCard">
+          <span class="pill">📱 Адаптив</span>
+          <h3>Телефон/ПК</h3>
+          <p>На мобілці все стає у колонку.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="blocks">
+      <h2 class="sectionTitle">Блоки</h2>
+      <div class="grid3">
+        <div class="miniCard">
+          <span class="pill">🚀 Швидко</span>
+          <h3>Редагується за хвилину</h3>
+          <p>Міняєш заголовки/кнопки/контакти — готово.</p>
+        </div>
+        <div class="miniCard">
+          <span class="pill">🧩 Гнучко</span>
+          <h3>Додавай секції</h3>
+          <p>Projects / Pricing / FAQ — без проблем.</p>
+        </div>
+        <div class="miniCard">
+          <span class="pill">✨ Просто</span>
+          <h3>Ніяких бібліотек</h3>
+          <p>Чистий HTML+CSS. Все під контролем.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 class="sectionTitle">Контакт</h2>
+      <div class="grid3">
+        <div class="miniCard">
+          <span class="pill">✉️ Email</span>
+          <h3>hello@example.com</h3>
+          <p>Заміни на свій і все.</p>
+        </div>
+        <div class="miniCard">
+          <span class="pill">💬 Telegram</span>
+          <h3>@yourtelegram</h3>
+          <p>Швидкий контакт в один клік.</p>
+        </div>
+        <div class="miniCard">
+          <span class="pill">🌐 Сайт</span>
+          <h3>yourdomain.com</h3>
+          <p>Постав домен — буде топ.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>© 2026 LightColor</footer>
+  </div>
+</body>
+</html>
