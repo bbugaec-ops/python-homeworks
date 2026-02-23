@@ -53,7 +53,7 @@ def handle_client(sock, addr):
         sock.sendall(" Ти в чаті. Команди: /users, /exit\n".encode("utf-8"))
 
         while True:
-            data = sock.recv(1024)
+            data = sock.recv(1024) 
             if not data:
                 break
 

@@ -1,10 +1,54 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Romeo and Juliet</title>
+    <link rel="stylesheet" href="{% static 'shekspire.css' %}">
 </head>
 <body>
-$END$
+  <div class="page container"> <h1>Romeo and Juliet</h1>
+
+    <div style="text-align: center; margin: 20px 0;">
+        <img src="{% static 'romeo.jpg' %}" width="300"
+             style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+    </div>
+
+    <h2>ACT 1</h2>
+    <h3>PROLOGUE</h3>
+
+    <div class="verse prologue-text">
+      <p>Two households, both alike in dignity,</p>
+      <p>In fair <strong>Verona</strong>, where we lay our scene,</p>
+      <p>From ancient grudge break to new mutiny,</p>
+      <p>Where civil blood makes civil hands unclean.</p>
+      <p>From forth the fatal loins of these two foes</p>
+      <p>A pair of star-cross'd lovers take their life</p>
+      <p>Whose misadventured piteous overthrows</p>
+      <p>Do with their death bury their parents' strife.</p>
+      <p>The fearful passage of their death-mark'd love</p>
+      <p>And the continuance of their parents' rage,</p>
+      <p>Which, but their children's end, nought could remove,</p>
+      <p>Is now the two hours traffic of our stage;</p>
+      <p>The which  you with patient ears attend,</p>
+      <p>What here shall miss, our toil shall strive to mend.</p>
+    </div>
+
+    <div class="scene">
+      <h3>SCENE I. Verona. A public place.</h3>
+      <p class="stage">Enter SAMPSON and GREGORY, of the house of Capulet, armed with swords and bucklers</p>
+
+      <div class="dialogue">
+        <span class="who">SAMPSON</span>
+        <p class="speech">Gregory, o my word, we'll not carry coals.</p>
+
+        <span class="who">GREGORY</span>
+        <p class="speech">No, for then we should be colliers.</p>
+      </div>
+    </div>
+
+    <div class="signature">Shakespeare</div>
+  </div>
 </body>
 </html>

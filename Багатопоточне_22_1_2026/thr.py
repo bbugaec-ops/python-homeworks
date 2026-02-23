@@ -1,5 +1,5 @@
 import threading
-import time
+
 
 def sum(a,b):
     print(a+b)
