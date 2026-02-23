@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Sushi Bar !</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                        url('https://images.unsplash.com/photo-1555126634-323283e090fa?q=80&w=1964&auto=format&fit=crop');
+            background-size: cover; background-attachment: fixed; color: white; font-family: 'Segoe UI', sans-serif;
+        }
+        .card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); transition: 0.3s; }
+        .btn-sushi { background-color: #ff4d4d; border: none; color: white; }
+        .floating-cart { position: fixed; bottom: 30px; right: 30px; z-index: 1000; width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark sticky-top shadow">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-danger" href="#">SUSHI MASTER</a>
+        <span class="text-white">📞 +38 (099) 123-45-67</span>
+    </div>
+</nav>
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1>SUSHI MASTER</h1>
+        <hr class="mx-auto bg-danger" style="width: 100px; height: 3px; opacity: 1;">
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="card h-100 p-3 text-center">
+                <h5 class="product-name text-uppercase">Філадельфія LUX</h5>
+                <p class="small opacity-75">Лосось, сир, авокадо.</p>
+                <span class="fs-5 mb-2 product-price">350₴</span>
+                <button class="btn btn-sushi btn-sm add-to-cart">Додати</button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card h-100 p-3 text-center">
+                <h5 class="product-name text-uppercase">Чорний Дракон</h5>
+                <p class="small opacity-75">Вугор, соус унагі, рис.</p>
+                <span class="fs-5 mb-2 product-price">320₴</span>
+                <button class="btn btn-sushi btn-sm add-to-cart">Додати</button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card h-100 p-3 text-center">
+                <h5 class="product-name text-uppercase">Каліфорнія</h5>
+                <p class="small opacity-75">Ікра тобіко, авокадо.</p>
+                <span class="fs-5 mb-2 product-price">290₴</span>
+                <button class="btn btn-sushi btn-sm add-to-cart">Додати</button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card h-100 p-3 text-center">
+                <h5 class="product-name text-uppercase">Темпура Ебі</h5>
+                <p class="small opacity-75">Креветка, кляр, спайсі.</p>
+                <span class="fs-5 mb-2 product-price">310₴</span>
+                <button class="btn btn-sushi btn-sm add-to-cart">Додати</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <button class="btn btn-sushi floating-cart shadow-lg" data-bs-toggle="offcanvas" data-bs-target="#cartPanel">
+        <span class="fs-3">🛒</span>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-white text-danger border border-danger cart-count">0</span>
+    </button>
+
+    <div class="offcanvas offcanvas-end bg-dark text-white" tabindex="-1" id="cartPanel">
+        <div class="offcanvas-header border-bottom border-secondary">
+            <h5 class="offcanvas-title">ТВІЙ КОШИК</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="list-group list-group-flush mb-4 cart-list">
+                <li class="text-center opacity-50">Кошик порожній</li>
+            </ul>
+            <button class="btn btn-sushi w-100" data-bs-toggle="modal" data-bs-target="#orderModal">Оформити</button>
+        </div>
+    </div>
+
+       <div class="modal fade" id="orderModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white border-secondary shadow-lg">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title text-uppercase">Оформлення замовлення</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label class="small opacity-75">Ваше ім'я</label>
+                        <input type="text" class="form-control bg-transparent text-white border-secondary" placeholder="Введіть ім'я">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="small opacity-75">Номер телефону</label>
+                        <input type="tel" class="form-control bg-transparent text-white border-secondary" placeholder="+380...">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="small opacity-75">Електронна пошта (Email)</label>
+                        <input type="email" class="form-control bg-transparent text-white border-secondary" placeholder="mail@example.com">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="small opacity-75">Адреса доставки</label>
+                        <textarea class="form-control bg-transparent text-white border-secondary" rows="2" placeholder="Вулиця, буд, кв"></textarea>
+                    </div>
+
+               <!--  <div class="mb-4">
+                        <label class="small opacity-75">Які палички поssssкласти?</label>
+                        <select class="form-select bg-transparent text-white border-secondary">
+                            <option value="standard" class="text-dark">Звичайні палички</option>
+                            <option value="training" class="text-dark">Навчальні палички</option>
+                            <option value="none" class="text-dark">Не потрібні</option>
+                        </select>
+                    </div>-->
+                <div class="choice-box" style="margin: 20px 0; padding: 15px; background-color: #fffaf0; border-radius: 8px; border: 1px solid #e0d0b0;">
+                    <p><strong>Чим будете їсти?</strong></p>
+
+                    <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                        <input type="radio" name="tool" value="sticks" checked> 🥢 Палички (традиційно)
+                    </label>
+
+                    <label style="display: block; margin-bottom: 8px; cursor: pointer;">
+                        <input type="radio" name="tool" value="fork"> 🍴 Вилка (грішний, але так зручніше)
+                    </label>
+
+                    <label style="display: block; cursor: pointer;">
+                        <input type="radio" name="tool" value="hands"> ✋ Руками (по-спартанськи)
+                    </label>
+                </div>
+
+
+                    <button type="submit" class="btn btn-sushi w-100 py-2 fw-bold">Підтвердити замовлення</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const list = document.querySelector('.cart-list');
+    const badge = document.querySelector('.cart-count');
+    let count = 0;
+
+    document.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.onclick = (e) => {
+            const card = e.target.closest('.card');
+            const name = card.querySelector('.product-name').innerText;
+            const price = card.querySelector('.product-price').innerText;
+
+            if (count === 0) list.innerHTML = '';
+            const li = document.createElement('li');
+            li.className = 'list-group-item bg-transparent text-white border-secondary d-flex justify-content-between small';
+            li.innerHTML = `<span>${name}</span><strong>${price}</strong>`;
+            list.appendChild(li);
+
+            count++;
+            badge.innerText = count;
+
+            btn.innerText = 'Додано!';
+
+            // Логіка з вилкою
+            const tool = document.querySelector('input[name="tool"]:checked');
+            if (tool && tool.value === 'fork') {
+                btn.innerText = '🍴 + Додано!'; // Маленька пасхалка на кнопці
+            }
+
+            setTimeout(() => btn.innerText = 'Додати', 600);
+        };
+    });
+</script>
+
+</body>
+</html>
