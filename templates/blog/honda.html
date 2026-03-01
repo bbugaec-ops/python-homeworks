@@ -1,0 +1,14 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <h1>Марка: {{ brand }}
+    </h1> <h3>Модельний ряд:</h3>
+    <ul>
+        {% for model in models %}
+        <li><strong>{{ model }}</strong></li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+    <a href="{% url 'blog_index' %}" class="btn">На головну</a>
+{% endblock %}

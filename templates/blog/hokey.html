@@ -1,0 +1,20 @@
+{% extends 'blog/base.html' %}
+
+
+
+{% block content %}
+    <h1>Розділ: Хокей⛸️</h1>
+    <p>Тут ви знайдете розклад матчів НХЛ та результати ігор на льоду.</p>
+
+ <h1>{{ title }}</h1>
+
+     <h3>Список команд</h3>
+     <ul>
+         {% for team in teams %}
+         <li>{{team}}</li>
+         {% endfor %}
+     </ul>
+
+
+    <a href="{% url 'blog_index' %}">Назад на головну</a>
+{% endblock %}

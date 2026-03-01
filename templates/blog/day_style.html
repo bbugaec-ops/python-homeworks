@@ -1,0 +1,13 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div style="background-color: {{ bg_color }}; min-height: 300px; padding: 40px; border-radius: 20px; text-align: center;">
+    <h1 style="color: white; text-shadow: 2px 2px 4px #000;">
+        Сьогодні: {{ day_name }}
+    </h1>
+    <p style="font-size: 1.2em;">Колір цього дня підібрано автоматично!</p>
+</div>
+
+<hr>
+<a href="{% url 'blog_index' %}">На головну</a>
+{% endblock %}

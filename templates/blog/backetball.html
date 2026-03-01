@@ -1,0 +1,17 @@
+{% extends 'blog/base.html' %}
+
+{% block title %} Баскетбол | NBA {% endblock %}
+
+{% block content %}
+    <h1>Розділ: {{ title }} 🏀</h1>
+    <p>Усе про NBA, турнірні таблиці та найкращі кидки сезону.</p>
+
+    <hr> <h3>Список команд:</h3>
+    <ul>
+        {% for team in teams %}
+            <li>{{ team }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'blog_index' %}">Назад на головну</a>
+{% endblock %}

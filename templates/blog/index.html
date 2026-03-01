@@ -1,0 +1,44 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<h1>Home</h1>
+
+<h1>{{ title|upper }}</h1>
+
+<p>{{ text|truncatewords:5 }}</p>       {#  обмеження слів після двокрапки: ----- #}
+
+<p>Datetime: {{ today|date:"d M Y"}}</p>
+
+<p>{{datalist}}</p>
+
+<ul>
+    {% for item in datalist %}
+    <li>{{ item }}</li>
+
+    {% endfor %}
+</ul>
+
+<hr>
+<h3>Оберіть марку автомобіля:</h3>
+<ul>
+    <li><a href="{% url 'toyota' %}">Тойота</a></li>
+    <li><a href="{% url 'honda' %}">Хонда</a></li>
+    <li><a href="{% url 'renault' %}">Рено</a></li>
+</ul>
+<hr>
+
+<hr>
+<h3>Спеціальні розділи:</h3>
+<ul>
+    <li><a href="{% url 'day_style' %}" style="font-weight: bold; color: blue;">Який сьогодні день? (Колір дня)</a></li>
+</ul>
+<hr>
+
+
+{% if user.is_authenticated %}
+    <p>Hello, {{ user.username }}</p>
+{% else %}
+    <p>Hello quest !</p>
+{% endif %}
+
+{% endblock %}

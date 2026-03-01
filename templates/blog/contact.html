@@ -1,0 +1,15 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+
+    <p>Наші реквізити для зв'язку:</p>
+    <ul>
+        <li><strong>Електронна пошта:</strong> {{ email }}</li>
+        <li><strong>Номер телефону:</strong> {{ phone }}</li>
+        <li><strong>Наша адреса:</strong> {{ address }}</li>
+    </ul>
+
+    <hr>
+    <a href="{% url 'blog_index' %}">Повернутися на головну</a>
+{% endblock %}
