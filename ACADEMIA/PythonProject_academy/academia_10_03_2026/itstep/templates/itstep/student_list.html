@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Список студентів</title>
+</head>
+<body>
+    <h1>Студенти</h1>
+    <p><a href="{% url 'home' %}">На головну</a></p>
+    {% if students %}
+    <ul>
+        {% for s in students %}
+        <li>{{ s.first_name }} {{ s.last_name }} — {{ s.email }}, {{ s.phone }}, нар. {{ s.date_of_birth }}
+            {% if s.courses.exists %}(курси: {% for c in s.courses.all %}{{ c.name }}{% if not forloop.last %}, {% endif %}{% endfor %}){% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Записів немає.</p>
+    {% endif %}
+</body>
+</html>

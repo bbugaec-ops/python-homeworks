@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Список курсів</title>
+</head>
+<body>
+    <h1>Курси</h1>
+    <p><a href="{% url 'home' %}">На головну</a></p>
+    {% if courses %}
+    <ul>
+        {% for c in courses %}
+        <li>{{ c.name }} — {{ c.description|truncatewords:10 }}. Викладач: {{ c.teacher }}. {{ c.start }} — {{ c.end }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Записів немає.</p>
+    {% endif %}
+</body>
+</html>
