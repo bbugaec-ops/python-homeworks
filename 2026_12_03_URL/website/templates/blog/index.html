@@ -1,19 +1,19 @@
 {% extends "layout/main_layout.html" %}
 
 {% block 'content' %}
-<h1 class="page-header"> Posts </h1>
+<h1 class="page-header">
+    {% if current_tag %}{{ current_tag.name }}{% else %}Пости{% endif %}
+</h1>
 
 {% for post in posts %}
         <!-- First Blog Post -->
         <h2>
             <a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a>
         </h2>
-        <p><strong>Tags:</strong>
+        <p>Теги:
         {% for tag in post.tags.all %}
-           <span># {{ tag.name }}</span>
-         {% empty %}
-             <span>No tags</span>
-            {% endfor %}
+           <a href="{% url 'tag' slug=tag.slug %}">{{ tag.name }}</a>
+         {% endfor %}
         </p>
         <p class="lead">
             by <a href="#">{{ post.user }}</a>
