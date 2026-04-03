@@ -1,0 +1,13 @@
+{% extends "layout/main_layout.html" %}
+{% block 'content' %}
+{% load crispy_forms_tags %}
+
+<h2>Login</h2>
+<form method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="Увійти" class="btn btn-default">
+    <p style="margin-top: 10px;">Немає акаунта? <a href="{% url 'register' %}">Реєстрація</a></p>
+</form>
+
+{% endblock %}
