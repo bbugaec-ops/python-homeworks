@@ -1,0 +1,23 @@
+{% extends "layout/main_layout.html" %}
+
+{% block 'content' %}
+<h2 class="page-header">Профіль</h2>
+
+<div class="well">
+    <p><strong>Ім’я користувача:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email|default:"—" }}</p>
+    <p><strong>Дата реєстрації:</strong> {{ user.date_joined }}</p>
+</div>
+
+{% if user.profile.avatar %}
+    <p><img src="{{ user.profile.avatar.url }}" alt="Аватар" class="img-responsive img-thumbnail" style="max-width:200px;"></p>
+{% endif %}
+<p><strong>Телефон:</strong> {{ user.profile.phone|default:"—" }}</p>
+<p><strong>Про себе:</strong></p>
+<p>{{ user.profile.bio|default:"—"|linebreaks }}</p>
+
+<p class="shop-profile-actions" style="margin-top:20px;">
+    <a href="{% url 'logout' %}" class="btn btn-danger">Logout (Вийти)</a>
+    <a href="{% url 'home' %}" class="btn btn-default">На головну</a>
+</p>
+{% endblock %}

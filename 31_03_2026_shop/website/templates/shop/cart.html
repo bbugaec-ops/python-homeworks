@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="container" style="padding-top: 70px;">
+    <h1 class="page-header">Кошик</h1>
+    <p><a href="{% url 'shop:product_list' %}">← До магазину</a></p>
+
+    {% if not lines %}
+        <p class="lead">Кошик порожній.</p>
+    {% else %}
+        <form id="cart-update-form" method="post" action="{% url 'shop:cart_update' %}">
+            {% csrf_token %}
+        </form>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th>Ціна</th>
+                    <th>Кількість</th>
+                    <th>Сума</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for line in lines %}
+                <tr>
+                    <td>{{ line.product.title }}</td>
+                    <td>{{ line.product.price }} грн</td>
+                    <td>
+                        <input type="number" name="qty_{{ line.product.pk }}" value="{{ line.qty }}" min="0"
+                               class="form-control" style="width: 80px;" form="cart-update-form">
+                    </td>
+                    <td>{{ line.subtotal }} грн</td>
+                    <td>
+                        <form action="{% url 'shop:cart_remove' slug=line.product.slug %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-xs">Видалити</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p><button type="submit" form="cart-update-form" class="btn btn-default">Оновити кількість</button></p>
+        <p class="lead"><strong>Разом: {{ total }} грн</strong></p>
+    {% endif %}
+</div>
+{% endblock %}

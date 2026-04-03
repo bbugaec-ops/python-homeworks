@@ -1,0 +1,24 @@
+{% extends "layout/main_layout.html" %}
+{% load thumbnail %}
+
+{% block 'content' %}
+
+<h1>Галерея</h1>
+
+<p><a class="btn btn-primary" href="{% url 'upload' %}">Завантажити</a></p>
+
+{% for item in images %}
+
+<h2>{{ item.title }}</h2>
+
+{% thumbnail item.image "200x200" crop="center" as m %}
+<a target="_blank" href="{{ item.image.url }}">
+<img src="{{ m.url }}" alt="{{ item.title }}">
+</a>
+
+{% empty %}
+<p>Поки немає зображень.</p>
+
+{% endfor %}
+
+{% endblock %}

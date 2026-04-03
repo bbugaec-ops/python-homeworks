@@ -1,0 +1,16 @@
+{% extends "layout/main_layout.html" %}
+
+{% block 'content' %}
+
+<h2>Login</h2>
+{% if form.non_field_errors %}
+    <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+{% endif %}
+<form method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Увійти" class="btn btn-default">
+
+
+</form>
+{% endblock %}

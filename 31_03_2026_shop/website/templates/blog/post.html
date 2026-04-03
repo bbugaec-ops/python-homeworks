@@ -1,0 +1,96 @@
+{% extends "layout/main_layout.html" %}
+
+{% block 'content' %}
+    <h1>{{ post.title }}</h1>
+
+    <p class="lead">
+        by <a href="#">{{ post.user }}</a>
+    </p>
+
+    <p>
+        <span class="glyphicon glyphicon-time"></span>
+        Posted on {{ post.published_date }}
+    </p>
+
+    <hr>
+
+    <img class="img-responsive" src="{{ post.image }}" alt="">
+
+    <hr>
+
+    <p>{{ post.content }}</p>
+
+    <hr>
+
+    {% if post.images.all %}
+    <h3>Галерея</h3>
+    <div class="row">
+        {% for photo in post.images.all %}
+        <div class="col-xs-6 col-sm-4 col-md-3" style="margin-bottom: 15px;">
+            <a href="{{ photo.image.url }}" target="_blank">
+                <img class="img-responsive img-thumbnail" src="{{ photo.image.url }}" alt="Фото до {{ post.title }}">
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    <hr>
+    {% endif %}
+
+    <p>
+        <strong>Категорія:</strong>
+        {{ post.category.name }}
+    </p>
+
+    <p>
+        <strong>Теги:</strong>
+        {% for tag in post.tags.all %}
+            <a href="{% url 'tag' slug=tag.slug %}">{{ tag.title }}</a>
+        {% empty %}
+            Нема тегів
+        {% endfor %}
+    </p>
+
+    <hr>
+
+    <h3>Коментарі:</h3>
+
+    <form method="post">
+        {% csrf_token %}
+        <p><strong>Ім'я:</strong></p>
+        <input
+            type="text"
+            id="id_author_name"
+            name="author_name"
+            placeholder="Введіть ім'я"
+            required
+            style="display:block; width:100%; max-width:640px; padding:8px; margin-bottom:12px; border:1px solid #999;"
+        >
+        <p><strong>Коментар:</strong></p>
+        <textarea
+            id="id_text"
+            name="text"
+            rows="4"
+            placeholder="Введіть коментар"
+            required
+            style="display:block; width:100%; max-width:640px; padding:8px; margin-bottom:12px; border:1px solid #999;"
+        ></textarea>
+        <button type="submit" class="btn btn-primary">Відправити</button>
+    </form>
+
+    <hr>
+
+    {% for comment in comments %}
+        <div class="media">
+            <div class="media-body">
+                <h4 class="media-heading">
+                    {{ comment.author_name }}
+                    <small>{{ comment.created_at }}</small>
+                </h4>
+                <p>{{ comment.text }}</p>
+            </div>
+        </div>
+        <hr>
+    {% empty %}
+        <p>Нема коментарів</p>
+    {% endfor %}
+{% endblock %}

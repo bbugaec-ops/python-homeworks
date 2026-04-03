@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-8">
+             {% block 'content' %}{% endblock %}
+        </div>
+
+        <div class="col-md-4">
+
+            <form action="{% url 'search' %}" method="GET">
+                 <input type="search" name="qwery" class="form-control">
+                 <span class="input-group-btn">
+                         <button class="btn btn-default" type="submit">
+                              <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                 </span>
+             </form>
+
+
+            <div class="well">
+                <h4>Категорії</h4>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <ul class="list-unstyled">
+                            {% for c in cat_left %}
+                                 <li><a href="{% url 'category' slug=c.slug %}">{{ c.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-6">
+                          <ul class="list-unstyled">
+                            {% for c in cat_right %}
+                                 <li><a href="{% url 'category' slug=c.slug %}">{{ c.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="well">
+                <h4>Теги</h4>
+                {% for tag in all_tags %}
+                    <a href="{% url 'tag' slug=tag.slug %}">{{ tag.title }}</a>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Copyright &copy; Your Website 2026</p>
+            </div>
+        </div>
+    </footer>
+
+</div>
+{% endblock %}

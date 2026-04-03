@@ -1,0 +1,21 @@
+{% extends "layout/main_layout.html" %}
+
+{% block 'content' %}
+<h2 class="page-header">Реєстрація</h2>
+{% if form.non_field_errors %}
+    <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+{% endif %}
+<form method="post" action="{% url 'register' %}">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="form-group">
+            {{ field.errors }}
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.help_text %}<p class="help-block text-muted small">{{ field.help_text|safe }}</p>{% endif %}
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Зареєструватися</button>
+    <a href="{% url 'login' %}" class="btn btn-link">Вже є акаунт? Увійти</a>
+</form>
+{% endblock %}
