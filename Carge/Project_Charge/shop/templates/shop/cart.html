@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Кошик — Charge</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 880px; margin: 2rem auto; padding: 0 1rem; color: #333; }
+        h1 { font-size: 1.5rem; border-bottom: 2px solid #eee; padding-bottom: 0.5rem; }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th, td { text-align: left; padding: 0.8rem 0.5rem; border-bottom: 1px solid #e0e0e0; vertical-align: middle; }
+        th:first-child, td:first-child { width: 5.5rem; }
+
+        /* Стилі для фото товару */
+        .cart-thumb-link { display: block; width: 4.5rem; height: 4.5rem; }
+        .cart-thumb {
+            width: 4.5rem;
+            height: 4.5rem;
+            object-fit: contain;
+            border-radius: 12px;
+            background: linear-gradient(165deg, #f3f4f6, #e8eaef);
+            padding: 6px;
+            display: block;
+            box-sizing: border-box;
+        }
+        .cart-thumb-placeholder {
+            width: 4.5rem; height: 4.5rem; border-radius: 12px; background: #eee;
+            color: #999; font-size: 0.65rem; display: flex; align-items: center;
+            justify-content: center; text-align: center; padding: 0.25rem; box-sizing: border-box;
+        }
+
+        /* Кнопки */
+        .btn {
+            display: inline-block; padding: 0.5rem 1rem; background: #0d47a1;
+            color: #fff; border: none; border-radius: 8px; font-weight: 600;
+            cursor: pointer; font-size: 0.9rem; text-decoration: none;
+        }
+        .btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        .btn-ghost { background: #f0f0f0; color: #e53935; border: 1px solid #ddd; }
+        .btn-ghost:hover { background: #ffebee; border-color: #e53935; }
+
+        .btn-buy {
+            background: linear-gradient(135deg, #ffc107, #ffca28);
+            color: #1a1200;
+            border: none;
+            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+        }
+
+        /* Керування кількістю */
+        .qty-cell { display: flex; align-items: center; gap: 0.5rem; }
+        .btn-qty {
+            width: 2.2rem; height: 2.2rem; display: flex; align-items: center; justify-content: center;
+            border: 1px solid #ccc; border-radius: 8px; background: #fff;
+            font-size: 1.2rem; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-qty:hover { border-color: #0d47a1; color: #0d47a1; background: #f0f7ff; }
+        .qty-value { min-width: 1.5rem; text-align: center; font-weight: 700; font-size: 1.1rem; }
+
+        /* Блок підсумку */
+        .checkout-bar {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-top: 2rem; background: #f8f9fa; padding: 1.5rem;
+            border-radius: 16px; border: 1px solid #e9ecef;
+        }
+        .total-price { font-size: 1.4rem; font-weight: 800; color: #1a1a1a; }
+        .total-label { font-size: 0.9rem; color: #666; display: block; font-weight: normal; }
+
+        .continue-link { display: inline-block; margin-top: 1rem; color: #666; text-decoration: none; font-size: 0.9rem; }
+        .continue-link:hover { color: #0d47a1; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    {% include "shop/includes/_nav.html" %}
+
+    <h1>Кошик</h1>
+
+    {% if lines %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Фото</th>
+                    <th>Товар</th>
+                    <th>Ціна</th>
+                    <th>Кількість</th>
+                    <th>Разом</th>
+                    <th>Дія</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for line in lines %}
+                <tr>
+                    <td>
+                        <a href="{% url 'product_detail' line.product.slug %}" class="cart-thumb-link">
+                            {% if line.product.image %}
+                            <img class="cart-thumb" src="{{ line.product.image.url }}" alt="{{ line.product.title }}" loading="lazy">
+                            {% else %}
+                            <img class="cart-thumb" src="{{ line.product.showcase_fallback_url }}" alt="{{ line.product.title }}" loading="lazy">
+                            {% endif %}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'product_detail' line.product.slug %}" style="text-decoration:none; color: #0d47a1; font-weight: 500;">
+                            {{ line.product.title }}
+                        </a>
+                    </td>
+                    <td>
+                        {% if user_has_registered_discount and line.unit_price != line.product.price %}
+                        <span style="text-decoration:line-through;color:#999;font-size:0.88rem;">{{ line.product.price }}</span><br>
+                        {% endif %}
+                        <strong>{{ line.unit_price }}</strong> грн
+                        {% if user_has_registered_discount and line.unit_price != line.product.price %}
+                        <span style="color:#2e7d32;font-size:0.78rem;">(−{{ registered_discount_percent }}%)</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="qty-cell">
+                            <form method="post" action="{% url 'cart_decrement' line.product.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-qty" title="Менше">−</button>
+                            </form>
+                            <span class="qty-value">{{ line.qty }}</span>
+                            <form method="post" action="{% url 'cart_increment' line.product.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-qty" title="Більше">+</button>
+                            </form>
+                        </div>
+                    </td>
+                    <td style="font-weight: 600;">{{ line.subtotal }} грн</td>
+                    <td>
+                        <form method="post" action="{% url 'cart_remove' line.product.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-ghost" style="font-size: 0.8rem;">Видалити</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="checkout-bar">
+            <div>
+                <span class="total-label">Загальна сума{% if user_has_registered_discount %} (зі знижкою {{ registered_discount_percent }}%){% endif %}:</span>
+                <span class="total-price">{{ total }} грн</span>
+            </div>
+
+            <a href="{% url 'order_create' %}" class="btn btn-buy" style="padding: 1rem 2.5rem; font-size: 1.1rem;">
+                Оформити замовлення →
+            </a>
+        </div>
+
+        <a href="{% url 'product_list' %}" class="continue-link">← Повернутися до каталогу</a>
+
+    {% else %}
+        <div style="text-align: center; padding: 4rem 1rem;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🛒</div>
+            <p style="font-size: 1.2rem; color: #666; margin-bottom: 2rem;">Ваш кошик порожній</p>
+            <a href="{% url 'product_list' %}" class="btn btn-buy" style="padding: 1rem 2.5rem;">Перейти до покупок</a>
+        </div>
+    {% endif %}
+
+</body>
+</html>

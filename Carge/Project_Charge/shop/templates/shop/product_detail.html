@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ product.title }} — Charge</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+        .price { font-size: 1.25rem; font-weight: bold; margin: 1rem 0; }
+        a { color: #0d47a1; }
+        .photo-stage {
+            margin: 1rem 0 1.5rem;
+            border-radius: 16px;
+            background: linear-gradient(165deg, #f3f4f6 0%, #e8eaef 50%, #f5f5f7 100%);
+            padding: clamp(1.5rem, 6vw, 2.5rem);
+            text-align: center;
+        }
+        .photo-stage img {
+            max-width: 100%;
+            max-height: min(70vh, 520px);
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            vertical-align: middle;
+            filter: drop-shadow(0 16px 32px rgba(0,0,0,0.12));
+        }
+        .btn-buy {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.65rem 1.4rem;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #ffc107, #ffca28);
+            color: #1a1200;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .btn-buy:hover { filter: brightness(1.05); }
+    </style>
+</head>
+<body>
+    {% include "shop/includes/_nav.html" %}
+    <p><a href="{% url 'product_list' %}">← До каталогу</a></p>
+    <h1>{{ product.title }}</h1>
+    <p>{{ product.category.name }}</p>
+    <div class="photo-stage">
+        {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.title }}">
+        {% else %}
+        <img src="{{ showcase_fallback_url }}" alt="{{ product.title }}">
+        {% endif %}
+    </div>
+    <p class="price">
+        {% if user_has_registered_discount and unit_price != product.price %}
+        <span style="text-decoration:line-through;color:#888;font-weight:normal;font-size:1rem;">{{ product.price }}</span>
+        {{ unit_price }} грн
+        <span style="color:#2e7d32;font-size:0.95rem;">(знижка {{ registered_discount_percent }}%)</span>
+        {% else %}
+        {{ product.price }} грн
+        {% endif %}
+    </p>
+    {% if not user.is_authenticated and registered_discount_percent %}
+    <p style="font-size:0.9rem;color:#666;margin-top:-0.5rem;"><a href="{% url 'register' %}">Зареєструйтеся</a> або <a href="{% url 'login' %}">увійдіть</a> — знижка {{ registered_discount_percent }}% на покупки.</p>
+    {% endif %}
+    <form action="{% url 'cart_add' product.slug %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <button type="submit" class="btn-buy">Купити — додати в кошик</button>
+    </form>
+    <div>{{ product.description|linebreaks }}</div>
+</body>
+</html>

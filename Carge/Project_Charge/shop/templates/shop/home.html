@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Charge — гаджети онлайн</title>
+    <style>
+        :root {
+            --bg: #0c1222;
+            --accent: #ffc107;
+            --accent-dim: #ffca28;
+            --text: #e8ecf4;
+            --muted: #8b9bb4;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: "Segoe UI", system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 4rem 1.5rem 5rem;
+            text-align: center;
+            background: linear-gradient(145deg, #0c1222 0%, #1a237e 42%, #0d3d5c 100%);
+        }
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 50% at 50% 100%, rgba(255, 193, 7, 0.12), transparent 55%);
+            pointer-events: none;
+        }
+        .hero-inner { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; }
+        .hero-brand {
+            margin: 0 0 0.5rem;
+            font-size: clamp(3rem, 12vw, 5.25rem);
+            font-weight: 800;
+            line-height: 1.02;
+            letter-spacing: -0.02em;
+            color: var(--accent);
+            text-shadow: 0 0 48px rgba(255, 193, 7, 0.28), 0 2px 20px rgba(0, 0, 0, 0.35);
+        }
+        .hero-tagline {
+            margin: 0 0 2rem;
+            font-size: clamp(0.95rem, 2.8vw, 1.2rem);
+            font-weight: 500;
+            line-height: 1.4;
+            color: #ffffff;
+        }
+        .hero-showcase {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: clamp(0.85rem, 3vw, 1.85rem);
+            flex-wrap: wrap;
+            margin-top: 2.5rem;
+            padding-top: 0.5rem;
+        }
+        .showcase-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.65rem;
+            color: var(--muted);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-decoration: none;
+            cursor: pointer;
+            border-radius: 12px;
+            padding: 0.35rem 0.5rem;
+            transition: color 0.15s ease, background 0.15s ease;
+        }
+        .showcase-link:hover,
+        .showcase-link:focus-visible {
+            color: var(--accent-dim);
+            background: rgba(255, 255, 255, 0.06);
+            outline: none;
+        }
+        .showcase-link:focus-visible {
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+        .showcase-link .icon-wrap {
+            width: 5.25rem;
+            height: 5.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            filter: drop-shadow(0 0 14px rgba(255, 193, 7, 0.4));
+            animation: floaty 4s ease-in-out infinite;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .showcase-link .icon-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+            filter: none;
+        }
+        .showcase-link:nth-child(2) .icon-wrap { animation-delay: -1s; }
+        .showcase-link:nth-child(3) .icon-wrap { animation-delay: -2s; }
+        .showcase-link:nth-child(4) .icon-wrap { animation-delay: -3s; }
+        .showcase-link:nth-child(5) .icon-wrap { animation-delay: -0.5s; }
+        .showcase-link:nth-child(6) .icon-wrap { animation-delay: -1.5s; }
+        .showcase-link:nth-child(7) .icon-wrap { animation-delay: -2.5s; }
+        .showcase-link:nth-child(8) .icon-wrap { animation-delay: -3.5s; }
+        .showcase-link:nth-child(9) .icon-wrap { animation-delay: -0.75s; }
+        .showcase-link:nth-child(10) .icon-wrap { animation-delay: -1.75s; }
+        .showcase-link:nth-child(11) .icon-wrap { animation-delay: -2.75s; }
+        .showcase-link:nth-child(12) .icon-wrap { animation-delay: -3.25s; }
+        .showcase-link:nth-child(13) .icon-wrap { animation-delay: -1.25s; }
+        .showcase-link .showcase-label {
+            max-width: 6.5rem;
+            text-align: center;
+            line-height: 1.25;
+        }
+        @keyframes floaty {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        .hero-showcase + .hero-cta-row { margin-top: 2rem; }
+        .hero-cta-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .hero-cta-row .cta-secondary { margin-left: 0; }
+        .cta {
+            display: inline-block;
+            padding: 0.9rem 2rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dim));
+            color: #1a1200;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 999px;
+            box-shadow: 0 4px 24px rgba(255, 193, 7, 0.35);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(255, 193, 7, 0.45);
+        }
+        .cta-secondary {
+            display: inline-block;
+            margin-left: 0.75rem;
+            padding: 0.9rem 1.25rem;
+            color: var(--text);
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 999px;
+        }
+        .cta-secondary:hover { border-color: var(--accent); color: var(--accent); }
+        footer {
+            text-align: center;
+            padding: 2rem 1rem 3rem;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+        footer a { color: var(--accent-dim); }
+        .hero .charge-topnav { color: var(--text); justify-content: flex-end; margin-bottom: 0.5rem; }
+        .hero .charge-topnav .nav-links a { color: var(--text); }
+        .hero .charge-auth a { color: var(--accent-dim); }
+        .hero .charge-auth a:hover { color: var(--accent); }
+        .hero .charge-auth .user-name { color: var(--muted); }
+        .hero .charge-auth button.nav-logout {
+            border-color: rgba(255,255,255,0.35); color: var(--text);
+        }
+        .hero .charge-auth button.nav-logout:hover { border-color: var(--accent); color: var(--accent); }
+        .hero .charge-messages li { background: rgba(255,255,255,0.12); color: #e8f5e9; }
+        .hero .charge-messages li.error { background: rgba(183,28,28,0.35); color: #ffcdd2; }
+        .hero .cart-trolley-link { border-color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.08); color: var(--accent-dim); }
+        .hero .cart-trolley-link:hover { border-color: var(--accent); color: var(--accent); }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <div class="hero-inner">
+            {% include "shop/includes/_nav.html" %}
+            <h1 class="hero-brand">Charge</h1>
+            <p class="hero-tagline">Енергія для твоїх гаджетів</p>
+
+            <div class="hero-showcase">
+                {% for item in showcase %}
+                <a class="showcase-link" href="{% if item.category_id %}{% url 'product_list_category' item.category_id %}{% else %}{% url 'product_list' %}{% endif %}" aria-label="{{ item.label }} — у каталозі">
+                    <div class="icon-wrap" aria-hidden="true">
+                        <img src="{{ item.image_url }}" alt="" loading="lazy">
+                    </div>
+                    <span class="showcase-label">{{ item.label }}</span>
+                </a>
+                {% endfor %}
+            </div>
+
+            <div class="hero-cta-row">
+                <a class="cta" href="{% url 'product_list' %}">Перейти в каталог</a>
+                <a class="cta-secondary" href="/admin/">Адмінка</a>
+            </div>
+        </div>
+    </header>
+
+    <footer>
+        <a href="{% url 'product_list' %}">Каталог</a> · Charge © 2026
+    </footer>
+</body>
+</html>

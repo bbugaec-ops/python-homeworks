@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Каталог — Charge</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 960px; margin: 2rem auto; padding: 0 1rem; }
+        h1 { font-size: 1.5rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.25rem; list-style: none; padding: 0; margin: 0; }
+        .card { border: 1px solid #e8e8e8; border-radius: 14px; overflow: hidden; background: #fafafa; box-shadow: 0 2px 12px rgba(0,0,0,0.04); transition: box-shadow 0.2s ease; }
+        .card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.08); }
+        .card a.title { display: block; padding: 0.65rem 0.75rem 0; font-weight: 600; color: #0d47a1; text-decoration: none; }
+        .card a.title:hover { text-decoration: underline; }
+        .card .meta { display: block; padding: 0 0.75rem 0.75rem; color: #666; font-size: 0.88rem; }
+        .thumb-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 4 / 5;
+            background: linear-gradient(165deg, #f3f4f6 0%, #e8eaef 45%, #f5f5f7 100%);
+            padding: 10% 8%;
+        }
+        .thumb-wrap .thumb {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            object-position: center;
+            filter: drop-shadow(0 12px 20px rgba(0,0,0,0.12));
+            transition: transform 0.25s ease, filter 0.25s ease;
+        }
+        .card a:first-child:hover .thumb { transform: scale(1.04); filter: drop-shadow(0 16px 28px rgba(0,0,0,0.15)); }
+        .thumb.placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 4 / 5;
+            color: #999;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 1rem;
+            background: linear-gradient(165deg, #f0f0f0, #e5e5e5);
+        }
+        a { color: #0d47a1; }
+        .meta-intro { color: #666; font-size: 0.9rem; }
+        .btn-buy {
+            display: block;
+            width: calc(100% - 1.5rem);
+            margin: 0 0.75rem 0.75rem;
+            padding: 0.5rem 0.75rem;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ffc107, #ffca28);
+            color: #1a1200;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-align: center;
+        }
+        .btn-buy:hover { filter: brightness(1.05); }
+        .price-filter {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            gap: 0.75rem 1rem;
+            margin: 1rem 0 1.5rem;
+            padding: 1rem 1.1rem;
+            background: #f4f6fa;
+            border-radius: 12px;
+            border: 1px solid #e2e6ef;
+        }
+        .price-filter label {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #444;
+        }
+        .price-filter input[type="text"] {
+            width: 7.5rem;
+            padding: 0.45rem 0.55rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+        .price-filter .btn-filter {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            background: #0d47a1;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .price-filter .btn-filter:hover { filter: brightness(1.08); }
+        .price-filter .btn-reset {
+            align-self: center;
+            font-size: 0.88rem;
+            color: #666;
+        }
+        .price-filter .btn-reset:hover { color: #0d47a1; }
+        .price-hint { font-size: 0.82rem; color: #888; margin: 0 0 0.25rem; width: 100%; flex-basis: 100%; }
+        .price-errors { margin: 0 0 0.75rem; padding-left: 1.2rem; color: #b71c1c; font-size: 0.88rem; }
+    </style>
+</head>
+<body>
+    {% include "shop/includes/_nav.html" %}
+    <p><a href="{% url 'home' %}">← На головну</a></p>
+    <h1>{% if current_category %}Каталог: {{ current_category.name }}{% else %}Каталог{% endif %}</h1>
+    <p class="meta-intro">{% if current_category %}Товари в категорії «{{ current_category.name }}».{% else %}Каталог товарів.{% endif %} <a href="{% url 'product_list' %}">Усі категорії</a></p>
+    {% if not user.is_authenticated and registered_discount_percent %}
+    <p class="meta-intro" style="margin-top:0.35rem;">Знижка <strong>{{ registered_discount_percent }}%</strong> після <a href="{% url 'register' %}">реєстрації</a> або <a href="{% url 'login' %}">входу</a>.</p>
+    {% endif %}
+
+    <form class="price-filter" method="get" action="{% if current_category %}{% url 'product_list_category' current_category.pk %}{% else %}{% url 'product_list' %}{% endif %}">
+        {% if price_bounds_lo is not None and price_bounds_hi is not None %}
+        <p class="price-hint">Ціни в {% if current_category %}цій категорії{% else %}каталозі{% endif %}: від {{ price_bounds_lo }} до {{ price_bounds_hi }} грн</p>
+        {% endif %}
+        <label>
+            Від (грн)
+            <input type="text" name="price_min" value="{{ price_min_raw }}" inputmode="decimal" placeholder="мін." autocomplete="off">
+        </label>
+        <label>
+            До (грн)
+            <input type="text" name="price_max" value="{{ price_max_raw }}" inputmode="decimal" placeholder="макс." autocomplete="off">
+        </label>
+        <button type="submit" class="btn-filter">Застосувати</button>
+        {% if price_min_raw or price_max_raw %}
+        <a class="btn-reset" href="{% if current_category %}{% url 'product_list_category' current_category.pk %}{% else %}{% url 'product_list' %}{% endif %}">Скинути фільтр</a>
+        {% endif %}
+    </form>
+    {% if price_errors %}
+    <ul class="price-errors">
+        {% for e in price_errors %}<li>{{ e }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if products %}
+    <ul class="grid">
+        {% for p in products %}
+        <li class="card">
+            <a href="{% url 'product_detail' p.slug %}">
+                {% if p.image %}
+                <span class="thumb-wrap"><img class="thumb" src="{{ p.image.url }}" alt="{{ p.title }}" width="400" height="500" loading="lazy"></span>
+                {% else %}
+                <span class="thumb-wrap"><img class="thumb" src="{{ p.showcase_fallback_url }}" alt="{{ p.title }}" width="400" height="500" loading="lazy"></span>
+                {% endif %}
+            </a>
+            <a class="title" href="{% url 'product_detail' p.slug %}">{{ p.title }}</a>
+            <span class="meta">{{ p.category.name }} —
+            {% if user_has_registered_discount and p.unit_price != p.price %}
+            <span style="text-decoration:line-through;color:#999;">{{ p.price }}</span>
+            <strong>{{ p.unit_price }}</strong> грн
+            <span style="color:#2e7d32;">(−{{ registered_discount_percent }}%)</span>
+            {% else %}
+            {{ p.price }} грн
+            {% endif %}
+            </span>
+            <form action="{% url 'cart_add' p.slug %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <button type="submit" class="btn-buy">Купити</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    {% elif empty_filtered %}
+    <p>За обраним діапазоном цін товарів немає. <a href="{% if current_category %}{% url 'product_list_category' current_category.pk %}{% else %}{% url 'product_list' %}{% endif %}">Показати всі</a></p>
+    {% else %}
+    <p>Поки немає товарів. Додай їх у <a href="/admin/">адмінці</a>.</p>
+    {% endif %}
+</body>
+</html>

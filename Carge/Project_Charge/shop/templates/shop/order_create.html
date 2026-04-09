@@ -1,0 +1,25 @@
+{% extends "shop/base.html" %} {% block content %}
+<div class="container">
+    <h1>Оформлення замовлення</h1>
+
+    <div class="order-info">
+        <h3>Ваше замовлення:</h3>
+        {% if user_has_registered_discount %}
+        <p style="font-size:0.9rem;color:#2e7d32;">Для вашого акаунта застосовано знижку {{ registered_discount_percent }}%.</p>
+        {% endif %}
+        <ul>
+            {% for item in lines %}
+                <li>{{ item.product.title }} — {{ item.qty }} шт. ({{ item.subtotal }} грн)</li>
+            {% endfor %}
+        </ul>
+        <p><strong>Всього до сплати: {{ total }} грн</strong></p>
+    </div>
+
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="order-form">
+            {{ form.as_p }} </div>
+        <button type="submit" class="btn btn-primary">Підтвердити замовлення</button>
+    </form>
+</div>
+{% endblock %}

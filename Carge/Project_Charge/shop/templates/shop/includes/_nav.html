@@ -1,0 +1,96 @@
+<style>
+    .charge-topnav {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        font-family: system-ui, sans-serif;
+    }
+    .charge-topnav .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    .charge-topnav a { color: inherit; text-decoration: none; }
+    .charge-topnav a:hover { text-decoration: underline; }
+    .cart-trolley-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.35rem 0.6rem;
+        border-radius: 10px;
+        border: 1px solid rgba(0,0,0,0.12);
+        background: rgba(255,255,255,0.85);
+        color: #0d47a1;
+        font-weight: 600;
+        font-size: 0.9rem;
+        position: relative;
+    }
+    .cart-trolley-link:hover { border-color: #ffc107; background: #fff; }
+    .cart-trolley-link svg { width: 2rem; height: 2rem; flex-shrink: 0; }
+    .cart-badge {
+        min-width: 1.35rem;
+        height: 1.35rem;
+        padding: 0 0.35rem;
+        border-radius: 999px;
+        background: #ffc107;
+        color: #1a1200;
+        font-size: 0.72rem;
+        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+    }
+    .cart-badge:empty { display: none; }
+    .charge-auth { display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap; font-size: 0.88rem; }
+    .charge-auth .user-name { color: #555; max-width: 10rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .charge-auth button.nav-logout {
+        background: none; border: 1px solid rgba(0,0,0,0.15); border-radius: 8px;
+        padding: 0.25rem 0.55rem; font-size: 0.85rem; cursor: pointer; color: inherit; font-family: inherit;
+    }
+    .charge-auth button.nav-logout:hover { border-color: #0d47a1; color: #0d47a1; }
+    .charge-messages { list-style: none; margin: 0 0 0.75rem; padding: 0; max-width: 960px; margin-left: auto; margin-right: auto; }
+    .charge-messages li { padding: 0.5rem 0.75rem; border-radius: 8px; background: #e8f5e9; color: #1b5e20; font-size: 0.9rem; }
+    .charge-messages li.error { background: #ffebee; color: #b71c1c; }
+</style>
+{% if messages %}
+<ul class="charge-messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<nav class="charge-topnav" aria-label="Навігація магазину">
+    <div class="nav-links">
+        <a href="{% url 'home' %}">Головна</a>
+        <a href="{% url 'product_list' %}">Каталог</a>
+        <span class="charge-auth">
+            {% if user.is_authenticated %}
+            <span class="user-name" title="{{ user.username }}">{{ user.username }}</span>
+            <form action="{% url 'logout' %}" method="post" style="display:inline;margin:0;">
+                {% csrf_token %}
+                <button type="submit" class="nav-logout">Вийти</button>
+            </form>
+            {% else %}
+            <a href="{% url 'login' %}">Увійти</a>
+            <a href="{% url 'register' %}">Реєстрація</a>
+            {% endif %}
+        </span>
+    </div>
+    <a href="{% url 'cart' %}" class="cart-trolley-link" title="Кошик" aria-label="Кошик, товарів: {{ cart_count }}">
+        <svg viewBox="0 0 64 52" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M6 14h8l5 28h34l5-28h8" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M16 14V10a8 8 0 0116 0v4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="24" cy="46" r="5" fill="currentColor"/>
+            <circle cx="44" cy="46" r="5" fill="currentColor"/>
+            <circle cx="24" cy="46" r="2" fill="#fff"/>
+            <circle cx="44" cy="46" r="2" fill="#fff"/>
+        </svg>
+        {% if cart_count %}<span class="cart-badge">{{ cart_count }}</span>{% endif %}
+        <span>Кошик</span>
+    </a>
+</nav>

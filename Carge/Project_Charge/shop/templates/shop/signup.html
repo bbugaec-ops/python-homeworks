@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Реєстрація — Charge</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 420px; margin: 2rem auto; padding: 0 1rem; color: #333; }
+        h1 { font-size: 1.35rem; }
+        form p { margin: 0.75rem 0; }
+        label { display: block; font-weight: 600; font-size: 0.88rem; margin-bottom: 0.25rem; }
+        input[type="text"], input[type="password"] { width: 100%; max-width: 100%; padding: 0.5rem 0.6rem; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+        .helptext, form ul.errorlist { font-size: 0.8rem; color: #666; margin: 0.35rem 0 0; padding-left: 1rem; }
+        form ul.errorlist { color: #b71c1c; }
+        button[type="submit"] {
+            margin-top: 1rem; padding: 0.65rem 1.25rem; border: none; border-radius: 10px;
+            background: linear-gradient(135deg, #ffc107, #ffca28); color: #1a1200; font-weight: 700; cursor: pointer;
+        }
+        button[type="submit"]:hover { filter: brightness(1.05); }
+        .hint { background: #f4f6fa; border-radius: 10px; padding: 0.85rem 1rem; font-size: 0.9rem; color: #444; margin-bottom: 1.25rem; border: 1px solid #e2e6ef; }
+        a { color: #0d47a1; }
+    </style>
+</head>
+<body>
+    {% include "shop/includes/_nav.html" %}
+    <p><a href="{% url 'home' %}">← На головну</a></p>
+    <h1>Реєстрація</h1>
+    <p class="hint">Після реєстрації та входу діє знижка <strong>{{ registered_discount_percent }}%</strong> на ціни в кошику та при оформленні замовлення.</p>
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Створити акаунт</button>
+    </form>
+    <p style="margin-top:1.25rem;font-size:0.9rem;">Вже є акаунт? <a href="{% url 'login' %}">Увійти</a></p>
+</body>
+</html>

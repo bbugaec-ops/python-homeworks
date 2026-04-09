@@ -1,0 +1,11 @@
+{% extends "shop/base.html" %}
+
+{% block content %}
+<div class="container" style="text-align: center; padding: 50px;">
+    <h1>Дякуємо за замовлення! ✅</h1>
+    <p>Ваше замовлення №<strong>{{ order.id }}</strong> успішно прийняте.</p>
+    <p>Ми зв'яжемося з вами найближчим часом за номером {{ order.phone }}.</p>
+    <br>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Повернутися на головну</a>
+</div>
+{% endblock %}
