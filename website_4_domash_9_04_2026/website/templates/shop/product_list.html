@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block main %}
+<script>
+function getCSRFToken() {
+    var name = "csrftoken";
+    var cookies = document.cookie.split("; ");
+    for (var i = 0; i < cookies.length; i++) {
+        if (cookies[i].indexOf(name + "=") === 0) {
+            return cookies[i].split("=")[1];
+        }
+    }
+    return "";
+}
+
+function addToCart(productId) {
+    fetch("{% url 'cart:add_to_cart_ajax' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-CSRFToken": getCSRFToken()
+        },
+        body: "product_id=" + productId
+    })
+    .then(function (response) { return response.json(); })
+    .then(function (data) {
+        var cartLink = document.getElementById("cart-nav-link");
+        if (!cartLink) return;
+        var badge = document.getElementById("cart-count");
+        if (!badge) {
+            badge = document.createElement("span");
+            badge.id = "cart-count";
+            badge.className = "badge";
+            cartLink.appendChild(document.createTextNode(" "));
+            cartLink.appendChild(badge);
+        }
+        if (data.cart_count > 0) {
+            badge.innerText = data.cart_count;
+            badge.style.display = "";
+        } else {
+            badge.innerText = "";
+            badge.style.display = "none";
+        }
+    })
+    .catch(function (error) { console.error("Error:", error); });
+}
+</script>
+
+{% load thumbnail %}
+<div class="container" style="padding-top: 20px;">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 style="margin-top: 0;">
+                {% if current_category %}{{ current_category.name }}{% else %}Каталог товарів{% endif %}
+            </h1>
+
+            <div class="row">
+                {% for product in products %}
+                <div class="col-sm-6" style="margin-bottom: 20px;">
+                    <div class="thumbnail" style="margin-bottom: 0;">
+                        <a href="{% url 'shop:product_detail' product.slug %}">
+                            <img src="{{ product.image.url }}"
+                                 class="img-responsive center-block"
+                                 alt="{{ product.title }}"
+                                 style="max-height: 220px; width: auto; max-width: 100%; object-fit: contain;">
+                        </a>
+                        <div class="caption">
+                            <h4 style="font-size: 16px; margin-top: 10px;">
+                                <a href="{% url 'shop:product_detail' product.slug %}">{{ product.title }}</a>
+                            </h4>
+                            <p class="text-muted small" style="min-height: 3em;">
+                                {{ product.description|truncatewords:12 }}
+                            </p>
+                            <p class="text-primary" style="font-size: 18px; font-weight: bold;">
+                                {{ product.price }} грн
+                            </p>
+                            <p>
+                                <a href="{% url 'shop:product_detail' product.slug %}"
+                                   class="btn btn-primary btn-sm">Деталі</a>
+                                <button type="button" class="btn btn-success btn-sm" onclick="addToCart({{ product.id }})">
+                                    У кошик
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% if forloop.counter|divisibleby:2 %}
+                <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
+                {% endif %}
+                {% empty %}
+                <p>Немає товарів.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="well">
+                <h4>Фільтр</h4>
+                <form method="get">
+                    <div class="form-group">
+                        <label>Мін. ціна</label>
+                        <input type="number" name="min_price" class="form-control" placeholder="min"
+                               value="{{ request.GET.min_price }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Макс. ціна</label>
+                        <input type="number" name="max_price" class="form-control" placeholder="max"
+                               value="{{ request.GET.max_price }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Сортування</label>
+                        <select name="sort" class="form-control">
+                            <option value="" {% if not request.GET.sort %}selected{% endif %}>Без сортування</option>
+                            <option value="price_asc" {% if request.GET.sort == 'price_asc' %}selected{% endif %}>Дешеві → дорогі</option>
+                            <option value="price_desc" {% if request.GET.sort == 'price_desc' %}selected{% endif %}>Дорогі → дешеві</option>
+                            <option value="newest" {% if request.GET.sort == 'newest' %}selected{% endif %}>Новіші</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Застосувати</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

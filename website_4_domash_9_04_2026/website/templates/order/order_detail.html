@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block main %}
+<div class="container mt-5">
+    <h2 class="mb-3">Замовлення {{ order.order_number }}</h2>
+    <p><strong>Статус:</strong> {{ order.get_status_display }}</p>
+    <p><strong>Дата:</strong> {{ order.created_at|date:"d.m.Y H:i" }}</p>
+    <p><strong>Контакт:</strong> {{ order.first_name }} {{ order.second_name }}, {{ order.email }}, {{ order.phone }}</p>
+    <p><strong>Адреса:</strong> {{ order.address }}, {{ order.postal_code }} {{ order.city }}</p>
+
+    <h3 class="h5 mt-4">Товари</h3>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th>Ціна</th>
+                    <th>Кількість</th>
+                    <th>Разом</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.items.all %}
+                <tr>
+                    <td>{{ item.product.title }}</td>
+                    <td>{{ item.price }} грн</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.get_cost }} грн</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p class="fs-5"><strong>Всього:</strong> {{ order.get_total_cost }} грн</p>
+
+    <p class="mt-3">
+        <a href="{% url 'order:order_list' %}">← Мої замовлення</a>
+        &nbsp;|&nbsp;
+        <a href="{% url 'blog:home' %}">На головну</a>
+    </p>
+</div>
+{% endblock %}

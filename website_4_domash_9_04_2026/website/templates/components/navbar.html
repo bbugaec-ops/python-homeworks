@@ -1,0 +1,74 @@
+<style>
+    .navbar-inverse .navbar-nav > li > a {
+        font-size: 14px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .navbar-brand {
+        font-weight: bold;
+        font-size: 17px;
+    }
+    .navbar-text {
+        margin-left: 8px;
+        margin-right: 4px;
+    }
+</style>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarContent"
+                    aria-expanded="false">
+                <span class="sr-only">Меню</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'blog:home' %}">Start Bootstrap</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="nav navbar-nav navbar-right">
+
+                <li><a href="{% url 'blog:home' %}">Home</a></li>
+                <li><a href="{% url 'gallery:gallery' %}">Gallery</a></li>
+                <li><a href="{% url 'blog:contacts' %}">Contact</a></li>
+
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'blog:create_post' %}">Create post</a></li>
+                <li><a href="{% url 'order:order_list' %}">Мої замовлення</a></li>
+                {% endif %}
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Shop <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="{% url 'shop:product_list' %}">All products</a></li>
+                        {% if categories %}
+                        <li role="separator" class="divider"></li>
+                        {% endif %}
+                        {% for category in categories %}
+                        <li><a href="{% url 'shop:category_products' slug=category.slug %}">{{ category.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                {% if user.is_authenticated %}
+                <li><p class="navbar-text hidden-xs">Hello, {{ user.username }}</p></li>
+                <li><a href="{% url 'blog:logout' %}">Logout</a></li>
+                {% endif %}
+
+                <li>
+                    <a href="{% url 'cart:cart_detail' %}" id="cart-nav-link">
+                        Cart
+                        {% if cart_count > 0 %}
+                        <span id="cart-count" class="badge">{{ cart_count }}</span>
+                        {% endif %}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
